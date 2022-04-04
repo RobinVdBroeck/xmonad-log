@@ -6,11 +6,10 @@ all: vendor xmonad-log
 xmonad-log: main.go
 	go build -o $@ $^
 
-vendor: glide.lock glide.yaml
-	glide install
+vendor: go.sum go.mod
+	go mod download
 
 clean:
-	rm -rf ./vendor
 	rm -rf ./dist
 	rm -f ./xmonad-log
 
