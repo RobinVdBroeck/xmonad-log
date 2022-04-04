@@ -1,29 +1,22 @@
-DIST_DIRS:= find * -type d -exec
-VERSION:=$(shell git describe --tags)
+BINARY_NAME=xmonad-log
 
-all: vendor xmonad-log
+all: build
 
-xmonad-log: main.go
-	go build -o $@ $^
-
-vendor: go.sum go.mod
+dep: 
 	go mod download
 
+build: main.go
+	go build -o ${BINARY_NAME} main.go
+
+run: build
+	./${BINARY_NAME}
+
 clean:
-	rm -rf ./dist
-	rm -f ./xmonad-log
+	go clean
 
-build-all: vendor
-	gox -verbose \
-		-os="linux" \
-		-arch="amd64 386" \
-		-output="dist/{{.OS}}-{{.Arch}}/{{.Dir}}"
+install: build
+	cp ${BINARY_NAME} /usr/local/bin/${BINARY_NAME}
 
-dist: build-all
-	cd dist && \
-		$(DIST_DIRS) tar -zcf xmonad-log-${VERSION}-{}.tar.gz -C {} xmonad-log \; && \
-		$(DIST_DIRS) zip -r xmonad-log-${VERSION}-{}.zip -j {}/xmonad-log \; && \
-		cd ..
-		
+uninstall:
+	rm /usr/local/bin/${BINARY_NAME}
 
-.PHONY: all build-all clean dist

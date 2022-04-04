@@ -12,14 +12,14 @@ packages](https://github.com/xintron/xmonad-log/releases) are available.
 
 ### Building from source
 
-This package has been tested with Go 1.7 and above.
+This package has been tested with Go 1.18 and above.
 
 To build from source:
  1. Clone this repository into `$GOPATH/src/github.com/xintron/xmonad-log`.
- 2. Build it within the directory with `go build`.
+ 2. Build it within the directory with `make build`.
 
-This should leave a `xmonad-log` binary in the directory. Move this to an
-appropriate directory in your `$PATH`.
+If you want to make this globally available, you can run `sudo make install`. This wil copy the
+executable into /usr/local/bin.
 
 ## Configure xmonad
 
@@ -66,3 +66,8 @@ dbusOutput dbus str = do
 View [this
 xmonad-config](https://github.com/xintron/configs/blob/22a33b41587c180172392f80318883921c543053/.xmonad/lib/Config.hs#L199)
 for a fully working polybar example using statusbar coloring.
+
+# Prior art
+This is a fork of [xintron/xmonad-log](https://github.com/xintron/xmonad-log),
+which does not seem to be maintained anymore. This fork has the advantage of
+using go modules.
