@@ -7,16 +7,27 @@ import (
 	"os"
 )
 
+// Time xmonad-log was build
+var BuildTime string
+
+// Go version xmonad-log was build on
+var GoVersion string
+
+const version = "v0.3.1"
+
 type Config struct {
 	BufferSize int
+	Version    bool
 }
 
 func ParseCli() (Config, error) {
 	bufferSize := flag.Int("s", 10, "Amount of dbus signals to buffer")
+	version := flag.Bool("v", false, "Display version information")
 	flag.Parse()
 
 	return Config{
 		BufferSize: *bufferSize,
+		Version:    *version,
 	}, nil
 }
 
@@ -24,6 +35,12 @@ func main() {
 	config, err := ParseCli()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to parse cli flags: %e\n", err)
+	}
+
+	if config.Version {
+		fmt.Printf("xmonad-log: %s build at %s\n", version, BuildTime)
+		fmt.Printf("build using golang: %s\n", GoVersion)
+		return
 	}
 
 	conn, err := dbus.SessionBus()
