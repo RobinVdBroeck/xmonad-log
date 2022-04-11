@@ -19,14 +19,13 @@ func main() {
 	c := make(chan *dbus.Signal, 10)
 	conn.Signal(c)
 	for s := range c {
-		if len(s.Body) == 0 {
-			continue
+		for _, message := range s.Body {
+			msg, ok := message.(string)
+			if !ok {
+				fmt.Fprintf(os.Stderr, "Received payload that is not of type string")
+				continue
+			}
+			fmt.Printf("%s\n", msg)
 		}
-		// Convert the result to a slice of strings
-		res, ok := s.Body[0].(string)
-		if !ok {
-			continue
-		}
-		fmt.Println(res)
 	}
 }
