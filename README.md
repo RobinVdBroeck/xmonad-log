@@ -70,4 +70,4 @@ for a fully working polybar example using statusbar coloring.
 # Prior art
 This is a fork of [xintron/xmonad-log](https://github.com/xintron/xmonad-log),
 which does not seem to be maintained anymore. This fork has the advantage of
-using go modules.
+using go modules and having some configuration flags.
